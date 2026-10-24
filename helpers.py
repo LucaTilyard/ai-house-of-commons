@@ -35,7 +35,7 @@ def show_title_card():
     print("=" * 100)
     print("\n")
 
-def parse_response(response, is_END=False):
+def parse_response(response,Date_Time_Stamp, is_END=False):
 
     # Parse the string into a Python dictionary
     response_JSON = json.loads(response)
@@ -43,10 +43,10 @@ def parse_response(response, is_END=False):
     if isinstance(response_JSON, list):
         response_JSON = response_JSON[0]
 
-    with open("Debate_logs/Entire_log.txt", "a", encoding="utf-8") as file:
+    with open("Debate_logs/Entire_log_" + Date_Time_Stamp + ".txt", "a", encoding="utf-8") as file:
         file.write("\n" + response + "\n")
 
-    with open("Debate_logs/Transcript.txt", "a", encoding="utf-8") as file:
+    with open("Debate_logs/Transcript_" + Date_Time_Stamp + ".txt", "a", encoding="utf-8") as file:
         file.write("\n" + response_JSON["user_id"] + ": " + response_JSON["speech"] + "\n")
 
     if response_JSON["user_id"] == "SPK":
@@ -58,5 +58,12 @@ def parse_response(response, is_END=False):
     return 1
 
 def initaliseTranscript():
-    with open("Debate_logs/Transcript.txt", "w", encoding="utf-8") as file:
-        file.write("TRANSCRIPT BEGIN \n \n Question from citizens: ")
+    date_time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    with open("Debate_logs/Entire_log_" + date_time_stamp + ".txt", "w", encoding="utf-8") as file:
+        file.write("TRANSCRIPT BEGIN \n \nQuestion from citizens: ")
+
+    with open("Debate_logs/Transcript_" + date_time_stamp + ".txt", "w", encoding="utf-8") as file:
+        file.write("TRANSCRIPT BEGIN \n \nQuestion from citizens: ")
+
+    return date_time_stamp
